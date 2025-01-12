@@ -1,27 +1,22 @@
 import pytest
 from pages.main_page import MainPage
 
-
-from locators.main_page_locators import MainPageLocators
+from data.test_data import FAQ_ANSWERS
 
 class TestFAQ:
 
-    @pytest.mark.parametrize("question_locator, answer_locator, expected_answer_text", [
-        (question, answer, answer_text) for (question, answer), answer_text in zip(
-            MainPageLocators.QUESTIONS_AND_ANSWERS,
-            [
-                "Сутки — 400 рублей. Оплата курьеру — наличными или картой.",
-                "Пока что у нас так: один заказ — один самокат. Если хотите покататься с друзьями, можете просто сделать несколько заказов — один за другим.",
-                "Допустим, вы оформляете заказ на 8 мая. Мы привозим самокат 8 мая в течение дня. Отсчёт времени аренды начинается с момента, когда вы оплатите заказ курьеру. Если мы привезли самокат 8 мая в 20:30, суточная аренда закончится 9 мая в 20:30.",
-                "Только начиная с завтрашнего дня. Но скоро станем расторопнее.",
-                "Пока что нет! Но если что-то срочное — всегда можно позвонить в поддержку по красивому номеру 1010.",
-                "Самокат приезжает к вам с полной зарядкой. Этого хватает на восемь суток — даже если будете кататься без передышек и во сне. Зарядка не понадобится.",
-                "Да, пока самокат не привезли. Штрафа не будет, объяснительной записки тоже не попросим. Все же свои.",
-                "Да, обязательно. Всем самокатов! И Москве, и Московской области.",
-            ]
-        )
-    ])
-
-    def test_faq_dropdown(self, driver, question_locator, answer_locator, expected_answer_text):
+    @pytest.mark.parametrize(
+        "question_number, expected_answer",
+        [(i, FAQ_ANSWERS[i]) for i in range(len(FAQ_ANSWERS))]
+    )
+    def test_faq_click_question_show_answer(self, driver, question_number, expected_answer):
         main_page = MainPage(driver)
-        main_page.click_dropdown_content(question_locator, answer_locator, expected_answer_text)
+
+        main_page.go_to_site()
+        main_page.click_cookie_accept()
+
+        main_page.click_faq_question(question_number)
+        actual_answer = main_page.get_faq_answer_text(question_number)
+
+        assert actual_answer == expected_answer, \
+            f"Ответ на вопрос не совпадает с ожидаемым. Ожидалось: {expected_answer}, получено: {actual_answer}"

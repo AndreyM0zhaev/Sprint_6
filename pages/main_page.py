@@ -18,24 +18,19 @@ class MainPage(BasePage):
         WebDriverWait(driver, 10).until(EC.element_to_be_clickable(MainPageLocators.BOTTOM_ORDER_BUTTON))
         button.click()
 
-
     def click_logo(self):
         self.find_element(locator=MainPageLocators.LOGO).click()
 
     def click_logo_yandex(self):
         self.find_element(locator=MainPageLocators.LOGO_YANDEX).click()
 
-    def click_dropdown_content(self, question_locator, answer_locator, expected_answer_text):
+    def click_faq_question(self, question_number: int):
+        locator = MainPageLocators.faq_question_button(question_number)
+        self.find_element(locator).click()
 
-        element = self.driver.find_element(*question_locator)
-        self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
+    def get_faq_answer_text(self, answer_number: int) -> str:
+        locator = MainPageLocators.faq_answer(answer_number)
+        return self.find_element(locator).text
 
-        self.click(question_locator)
-
-        actual_answer_text = self.get_text(answer_locator)
-        assert actual_answer_text == expected_answer_text, \
-            f"Expected '{expected_answer_text}', but got '{actual_answer_text}'"
-
-
-
-
+    def click_cookie_accept(self):
+        return self.find_element(MainPageLocators.COOKIE_ACCEPT_BUTTON).click()

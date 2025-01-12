@@ -1,9 +1,7 @@
 import pytest
 from selenium import webdriver
 
-
 from constants import Constant
-
 
 @pytest.fixture()
 def driver():
@@ -12,5 +10,3 @@ def driver():
     browser.get(Constant.URL)
     yield browser
     browser.quit()
-
-
