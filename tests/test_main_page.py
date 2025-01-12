@@ -1,4 +1,4 @@
-
+import pytest
 from selenium.webdriver.support.wait import WebDriverWait
 
 from pages.main_page import MainPage
@@ -8,7 +8,32 @@ from constants import Constant
 
 
 class TestMainPage:
+    ORDERS_DATA = [
+        {
+            "first_name": "Иван",
+            "last_name": "Иванов",
+            "address": "Москва, ул. Ленина, д. 1",
+            "metro": "Белорусская",
+            "phone": "+79991234567",
+            "date": "2022-01-01",
+            "rental_period": "сутки",
+            "color": "чёрный жемчуг",
+            "comment": "комментарий_1",
+        },
+        {
+            "first_name": "Петр",
+            "last_name": "Петров",
+            "address": "Санкт-Петербург, Невский пр., д. 25",
+            "metro": "Красногвардейская",
+            "phone": "+79876543210",
+            "date": "2022-02-01",
+            "rental_period": "семеро суток",
+            "color": "серая безысходность",
+            "comment": "комментарий_2",
+        }
+    ]
 
+    @pytest.mark.parametrize("order_data", ORDERS_DATA)
     def test_order_flow_with_top_button(self, driver, order_data):
         main_page = MainPage(driver)
         order_page = OrderPage(driver)
