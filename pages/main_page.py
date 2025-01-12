@@ -1,8 +1,8 @@
 from pages.base_page import BasePage
 from locators.main_page_locators import MainPageLocators
+from locators.order_page_locators import OrderPageLocators
 
 class MainPage(BasePage):
-
 
     def click_top_order_button(self):
         self.click(MainPageLocators.TOP_ORDER_BUTTON)
@@ -38,3 +38,9 @@ class MainPage(BasePage):
 
     def wait_for_url_contains(self, url_part):
         self.wait.until(lambda d: url_part in d.current_url, f"URL не содержит {url_part} в течение тайм-аута")
+
+    def is_order_form_displayed(self):
+        try:
+            return self.find_element(OrderPageLocators.ORDER_FORM).is_displayed()
+        except:
+            return False

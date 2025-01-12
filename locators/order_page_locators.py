@@ -8,3 +8,4 @@ class OrderPageLocators:
     METRO_STATION_INPUT = (By.XPATH, "//input[@placeholder='* Станция метро']")
     PHONE_INPUT = (By.XPATH, "//input[@placeholder='* Телефон: на него позвонит курьер']")
     NEXT_BUTTON = (By.XPATH, "//button[contains(text(),'Далее')]")
+    ORDER_FORM = (By.XPATH, "//div[@class='Order_Content__bmtHS']")

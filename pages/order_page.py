@@ -24,3 +24,4 @@ class OrderPage(BasePage):
         self.find_element(OrderPageLocators.PHONE_INPUT).send_keys(data['phone'])
 
         self.click(OrderPageLocators.NEXT_BUTTON)
+

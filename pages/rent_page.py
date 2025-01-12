@@ -41,3 +41,4 @@ class RentPage(BasePage):
 
         self.wait_until_visible(RentPageLocators.ORDER_COMPLETE)
         self.click(RentPageLocators.SHOW_STATUS_BUTTON)
+        return self.is_element_displayed(RentPageLocators.ORDER_CANCEL)

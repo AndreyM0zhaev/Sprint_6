@@ -31,3 +31,9 @@ class BasePage:
     def scroll_to_element(self, locator):
         element = self.find_element(locator)
         self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
+
+    def is_element_displayed(self, locator):
+        try:
+            return self.find_element(locator).is_displayed()
+        except:
+            return False

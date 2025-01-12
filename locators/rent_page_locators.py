@@ -11,6 +11,7 @@ class RentPageLocators:
     ORDER_COMPLETE = (By.XPATH,  "//div[@class='Order_ModalHeader__3FDaJ']")
     SHOW_STATUS_BUTTON = (By.XPATH, "//button[contains(@class, 'Button_Middle__1CSJM') and text()='Посмотреть статус']")
     DROPDOWN_MENU = (By.XPATH, "//div[contains(@class, 'Dropdown-menu')]")
+    ORDER_CANCEL = (By.XPATH, "//button[contains(text(),'Отменить заказ')]")
 
     @staticmethod
     def RENTAL_PERIOD_OPTION(period_text):
@@ -19,3 +20,4 @@ class RentPageLocators:
     @staticmethod
     def COLOR_CHECKBOX(color_id):
         return (By.ID, color_id)
+
