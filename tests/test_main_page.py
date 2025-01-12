@@ -1,5 +1,4 @@
 import pytest
-from selenium.webdriver.support.wait import WebDriverWait
 
 from pages.main_page import MainPage
 from pages.order_page import OrderPage
@@ -50,37 +49,28 @@ class TestMainPage:
     def test_flow_order_bottom_button(self, driver):
         main_page = MainPage(driver)
         main_page.go_to_site()
-        main_page.click_bottom_order_button(driver)
+        main_page.click_bottom_order_button()
 
 
     def test_click_logo(self, driver):
         main_page = MainPage(driver)
 
         main_page.go_to_site()
-        assert driver.current_url == Constant.URL, "Не удалось перейти на главную страницу"
+        assert main_page.get_current_url() == Constant.URL, "Не удалось перейти на главную страницу"
 
         main_page.click_top_order_button()
-        assert driver.current_url == Constant.ORDER_URL, "Не удалось перейти на страницу заказа"
+        assert main_page.get_current_url() == Constant.ORDER_URL, "Не удалось перейти на страницу заказа"
 
         main_page.click_logo()
-        assert driver.current_url == Constant.URL, "Не удалось вернуться на главную страницу после нажатия на логотип"
+        assert main_page.get_current_url() == Constant.URL, "Не удалось вернуться на главную страницу после нажатия на логотип"
 
     def test_redirect(self, driver):
         main_page = MainPage(driver)
         main_page.go_to_site()
-        assert driver.current_url == Constant.URL
+        assert main_page.get_current_url() == Constant.URL
+
         main_page.click_logo_yandex()
+        main_page.wait_for_new_tab_and_switch()
+        main_page.wait_for_url_contains("https://dzen.ru/?yredirect=true")
 
-        WebDriverWait(driver, 10).until(lambda d: len(d.window_handles) > 1, "Новая вкладка не открылась в течение тайм-аута")
-        new_tab = driver.window_handles[1]
-        driver.switch_to.window(new_tab)
-
-        WebDriverWait(driver, 15).until(
-            lambda d: "https://dzen.ru/?yredirect=true" in d.current_url)
-
-        assert driver.current_url == Constant.DZEN_URL
-
-
-
-
-
+        assert main_page.get_current_url() == Constant.DZEN_URL

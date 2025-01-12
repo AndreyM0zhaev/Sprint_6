@@ -1,36 +1,40 @@
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from pages.base_page import BasePage
 from locators.main_page_locators import MainPageLocators
-from conftest import driver
 
 class MainPage(BasePage):
 
+
     def click_top_order_button(self):
-        self.find_element(locator=MainPageLocators.TOP_ORDER_BUTTON).click()
+        self.click(MainPageLocators.TOP_ORDER_BUTTON)
 
-
-    @staticmethod
-    def click_bottom_order_button(driver):
-        wait = WebDriverWait(driver, 10)
-        button = wait.until(EC.element_to_be_clickable(MainPageLocators.BOTTOM_ORDER_BUTTON))
-        driver.execute_script("arguments[0].scrollIntoView(true);", button)
-        WebDriverWait(driver, 10).until(EC.element_to_be_clickable(MainPageLocators.BOTTOM_ORDER_BUTTON))
-        button.click()
+    def click_bottom_order_button(self):
+        self.scroll_to_element(MainPageLocators.BOTTOM_ORDER_BUTTON)
+        self.click(MainPageLocators.BOTTOM_ORDER_BUTTON)
 
     def click_logo(self):
-        self.find_element(locator=MainPageLocators.LOGO).click()
+        self.click(MainPageLocators.LOGO)
 
     def click_logo_yandex(self):
-        self.find_element(locator=MainPageLocators.LOGO_YANDEX).click()
+        self.click(MainPageLocators.LOGO_YANDEX)
 
     def click_faq_question(self, question_number: int):
         locator = MainPageLocators.faq_question_button(question_number)
-        self.find_element(locator).click()
+        self.click(locator)
 
     def get_faq_answer_text(self, answer_number: int) -> str:
         locator = MainPageLocators.faq_answer(answer_number)
-        return self.find_element(locator).text
+        return self.get_text(locator)
 
     def click_cookie_accept(self):
-        return self.find_element(MainPageLocators.COOKIE_ACCEPT_BUTTON).click()
+        self.click(MainPageLocators.COOKIE_ACCEPT_BUTTON)
+
+    def get_current_url(self):
+        return self.driver.current_url
+
+    def wait_for_new_tab_and_switch(self):
+        self.wait.until(lambda d: len(d.window_handles) > 1, "Новая вкладка не открылась в течение тайм-аута")
+        new_tab = self.driver.window_handles[1]
+        self.driver.switch_to.window(new_tab)
+
+    def wait_for_url_contains(self, url_part):
+        self.wait.until(lambda d: url_part in d.current_url, f"URL не содержит {url_part} в течение тайм-аута")
